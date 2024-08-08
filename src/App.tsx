@@ -13,7 +13,7 @@ const App = () => {
     {
       id: 1,
       title: "Your First Note!",
-      content: "Click here and use the Content box to write away!",
+      content: "Click this Note to edit!",
     }
   ]);
 
@@ -108,7 +108,7 @@ const App = () => {
         onChange = {(event)=> 
           setTitle(event.target.value)
         }
-        placeholder = "title"
+        placeholder = "Name your Note!"
         required
       ></input>
       <textarea
@@ -116,7 +116,7 @@ const App = () => {
         onChange = {(event) =>
           setContent(event.target.value)
          }
-        placeholder = "Content"
+        placeholder = "Write something here!"
         rows = {10}
         required
         ></textarea>
@@ -143,7 +143,7 @@ const App = () => {
             deleteNote(event, note.id)
            }
           >
-           x
+          🌸
           </button>
         </div>
         <h2> {note.title} </h2>

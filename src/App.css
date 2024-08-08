@@ -1,6 +1,6 @@
 body {
   margin : 20px;
-  background-color: rgb(101, 208, 243);
+  background-color: rgb(93, 192, 225);
 }
 
 .app-container {
@@ -29,10 +29,11 @@ body {
 .note-item {
   display: flex;
   flex-direction: column;
-  border: 1px solid #e00606;
+  border: 15px solid #104f1df0;
   padding: 10px;
-  border-radius: 5px;
-  background-color: #ddd1a1;
+  color: rgb(240, 215, 166);
+  border-radius: 30px;
+  background-color: #3ebc6c;
   box-shadow: 0px 0px 10px
     rgba(0,0,0,0.1);
   cursor: pointer;
@@ -44,11 +45,13 @@ body {
 }
 
 .notes-header button {
-  font-size: 16px;
+  font-size: 30px;
+  font-weight: bold;
   background: transparent;
   border: none;
   cursor: pointer;
   max-width: fit-content;
+  color : rgb(244, 108, 130);
 }
 
 h2 {
@@ -63,14 +66,17 @@ h2 {
 
 textarea, 
 input {
-  border-radius: 5px;
-  border: 1px solid black;
+  border-radius: 15px;
+  border: 5px solid rgb(88, 87, 87);
+  background-color: rgb(162, 158, 158);
+  color : rgb(78, 81, 99);
   padding: 10 px;
   font-size: 16px;
+  color : rgb(194, 240, 188);
 }
 
 .note-form button {
-  border-radius: 5px;
+  border-radius: 15px;
   background-color: rgb(15, 72, 91);
   border: none;
   padding: 10px;
@@ -79,7 +85,7 @@ input {
 }
 
 .note-form button:hover {
-  background-color: rgb(15, 72, 91);
+  background-color: rgb(25, 111, 139);
   cursor: pointer;
 }
 
@@ -94,7 +100,11 @@ input {
 }
 
 .edit-buttons button:last-of-type{
-  background-color: red;
+  background-color: rgb(151, 8, 8);
   color: white;
-  
+}
+
+.edit-buttons button:last-of-type:hover {
+  background-color: rgb(216, 49, 68);
+  cursor: pointer;
 }

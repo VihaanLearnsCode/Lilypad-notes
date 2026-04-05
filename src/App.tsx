@@ -12,6 +12,7 @@ const NotesApp: React.FC = () => {
   const [content, setContent] = useState("");
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
+  const [activeView, setActiveView] = useState<'create' | 'view'>('create');
 
   const loadNotes = useCallback(async () => {
     if (!user) return;
@@ -36,12 +37,7 @@ const NotesApp: React.FC = () => {
     }
   }, [user, loadNotes]);
     
-  const handleNoteClick = (note:Note) => {
-    setSelectedNote(note);
-    setTitle(note.title);
-    setContent(note.content);
-  }
-
+  
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!user) return;
@@ -111,16 +107,34 @@ const NotesApp: React.FC = () => {
     <div className="app-container">
       <div className="app-header">
         <h1>Lilypad Notes</h1>
-        <Auth />
+        <div className="header-right">
+          <div className="view-tabs">
+            <button 
+              className={`tab-btn ${activeView === 'create' ? 'active' : ''}`}
+              onClick={() => setActiveView('create')}
+            >
+              Create Note
+            </button>
+            <button 
+              className={`tab-btn ${activeView === 'view' ? 'active' : ''}`}
+              onClick={() => setActiveView('view')}
+            >
+              View Notes ({notes.length})
+            </button>
+          </div>
+          <Auth />
+        </div>
       </div>
-    <form 
-      className = "note-form" 
-      onSubmit={(event)=> 
-        selectedNote 
-        ? handleUpdateNote(event)
-        : handleSubmit(event)
-      }
-    >
+      {activeView === 'create' ? (
+        <div className="create-view">
+          <form 
+            className="note-form" 
+            onSubmit={(event)=> 
+              selectedNote 
+              ? handleUpdateNote(event)
+              : handleSubmit(event)
+            }
+          >
       <input
         value = {title}
         onChange = {(event)=> 
@@ -148,29 +162,51 @@ const NotesApp: React.FC = () => {
         ) : (
         <button type = "submit">Add Note</button>
       )}
-    </form>
-    <div className = "notes-grid">
-      {notes.map((note)=> (
-        <div 
-         className = "note-item"
-         onClick={() => handleNoteClick(note)}
-        >
-        <div className = "notes-header">
-          <button
-           onClick={(event) => 
-            deleteNote(event, note.id || '')
-           }
-          >
-           x
-          </button>
+          </form>
         </div>
-        <h2> {note.title} </h2>
-        <p> {note.content} </p>
-      </div>
-      ))}
-
+      ) : (
+        <div className="view-view">
+          <div className="notes-grid">
+            {notes.length === 0 ? (
+              <div className="no-notes">
+                <h3>No notes yet</h3>
+                <p>Click "Create Note" to add your first note!</p>
+              </div>
+            ) : (
+              notes.map((note) => (
+                <div 
+                  key={note.id}
+                  className="note-item"
+                  onClick={() => {
+                    setSelectedNote(note);
+                    setTitle(note.title);
+                    setContent(note.content);
+                    setActiveView('create');
+                  }}
+                >
+                  <div className="notes-header">
+                    <button
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        deleteNote(event, note.id || '');
+                      }}
+                      className="delete-btn"
+                    >
+                      ×
+                    </button>
+                  </div>
+                  <h3>{note.title}</h3>
+                  <p>{note.content}</p>
+                  <div className="note-date">
+                    {note.updatedAt?.toLocaleDateString()}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
     </div>
-  </div>
   );
 };
 

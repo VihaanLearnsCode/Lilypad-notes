@@ -13,6 +13,7 @@ const NotesApp: React.FC = () => {
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeView, setActiveView] = useState<'create' | 'view'>('create');
+  const [currentNoteColor, setCurrentNoteColor] = useState<{border: string, inner: string} | null>(null);
 
   const loadNotes = useCallback(async () => {
     if (!user) return;
@@ -44,7 +45,7 @@ const NotesApp: React.FC = () => {
 
     try {
       console.log('Creating note:', { title, content }); // Debug log
-      await notesService.create({
+      const newNoteId = await notesService.create({
         title,
         content,
         userId: user.uid
@@ -53,6 +54,7 @@ const NotesApp: React.FC = () => {
       await loadNotes();
       setTitle("");
       setContent("");
+      setCurrentNoteColor(null);
       setActiveView('view'); // Switch to view after creating
     } catch (error) {
       console.error('Error creating note:', error);
@@ -83,6 +85,7 @@ const NotesApp: React.FC = () => {
     setTitle("");
     setContent("");
     setSelectedNote(null);
+    setCurrentNoteColor(null);
   };
 
   const deleteNote = async (event: React.MouseEvent, noteId: string) => {
@@ -143,7 +146,17 @@ const NotesApp: React.FC = () => {
 
         <main className="grid lg:grid-cols-2 gap-8">
           {activeView === 'create' ? (
-            <div className="bg-white rounded-xl shadow-xl p-6">
+            <div className={`${currentNoteColor?.inner || 'bg-green-100'} ${currentNoteColor?.border || 'border-green-600'} border-4 rounded-2xl shadow-xl p-6`}>
+              <div className="mb-4">
+                <h2 className="text-xl font-bold text-green-900 mb-2">
+                  {selectedNote ? 'Edit Note' : 'Create New Note'}
+                </h2>
+                {selectedNote && (
+                  <p className="text-sm text-green-700">
+                    Editing: "{selectedNote.title}"
+                  </p>
+                )}
+              </div>
               <form 
                 className="space-y-4" 
                 onSubmit={(event)=> 
@@ -203,6 +216,11 @@ const NotesApp: React.FC = () => {
             </div>
           ) : (
             <div className="lg:col-span-2">
+              <div className="text-center mb-6 p-4 bg-white/10 backdrop-blur-sm rounded-lg">
+                <p className="text-white text-sm">
+                  💡 <strong>Click any note to edit</strong> • 🌸 means delete
+                </p>
+              </div>
               {notes.length === 0 ? (
                 <div className="bg-white rounded-xl shadow-xl p-12 text-center">
                   <div className="text-gray-400 mb-4">
@@ -247,6 +265,19 @@ const NotesApp: React.FC = () => {
                           setSelectedNote(note);
                           setTitle(note.title);
                           setContent(note.content);
+                          // Set the note color for create view
+                          const noteHash = note.id ? note.id.split('').reduce((a, b) => a + b.charCodeAt(0), 0) : 0;
+                          const borderColors = [
+                            'border-green-600', 'border-emerald-600', 'border-teal-600',
+                            'border-green-700', 'border-emerald-700', 'border-teal-700'
+                          ];
+                          const innerColors = [
+                            'bg-green-100', 'bg-green-50', 'bg-emerald-100',
+                            'bg-emerald-50', 'bg-teal-100', 'bg-teal-50'
+                          ];
+                          const borderColor = borderColors[noteHash % borderColors.length];
+                          const innerColor = innerColors[(noteHash + 1) % innerColors.length];
+                          setCurrentNoteColor({border: borderColor, inner: innerColor});
                           setActiveView('create');
                         }}
                       >

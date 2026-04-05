@@ -242,7 +242,7 @@ const NotesApp: React.FC = () => {
                     return (
                       <div 
                         key={note.id}
-                        className={`${innerColor} ${borderColor} border-8 rounded-full shadow-lg p-6 hover:shadow-xl transition-all cursor-pointer hover:scale-105`}
+                        className={`${innerColor} ${borderColor} border-4 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all cursor-pointer hover:scale-105 relative`}
                         onClick={() => {
                           setSelectedNote(note);
                           setTitle(note.title);
@@ -250,19 +250,17 @@ const NotesApp: React.FC = () => {
                           setActiveView('create');
                         }}
                       >
-                        <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-lg font-bold text-green-900 flex-1 mr-2">{note.title}</h3>
-                          <button
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              deleteNote(event, note.id || '');
-                            }}
-                            className="text-red-500 hover:text-red-700 transition-colors p-1 bg-white rounded-full shadow-md"
-                          >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                          </button>
+                        <button
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            deleteNote(event, note.id || '');
+                          }}
+                          className="absolute top-2 right-2 text-2xl hover:scale-110 transition-transform bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md"
+                        >
+                          🌸
+                        </button>
+                        <div className="mb-2">
+                          <h3 className="text-lg font-bold text-green-900">{note.title}</h3>
                         </div>
                         <p className="text-green-800 line-clamp-4 mb-3">{note.content}</p>
                         <div className="text-sm text-green-700 font-medium">

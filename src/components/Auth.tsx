@@ -14,10 +14,10 @@ const Auth: React.FC = () => {
             className="user-avatar"
           />
           <span className="user-name">{user.displayName}</span>
+          <button onClick={signOut} className="sign-out-btn">
+            Sign Out
+          </button>
         </div>
-        <button onClick={signOut} className="sign-out-btn">
-          Sign Out
-        </button>
       </div>
     );
   }

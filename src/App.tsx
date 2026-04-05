@@ -20,6 +20,7 @@ const NotesApp: React.FC = () => {
     try {
       setLoading(true);
       const userNotes = await notesService.getAll(user.uid);
+      console.log('Loaded notes:', userNotes.length); // Debug log
       setNotes(userNotes);
     } catch (error) {
       console.error('Error loading notes:', error);
@@ -42,6 +43,7 @@ const NotesApp: React.FC = () => {
     if (!user) return;
 
     try {
+      console.log('Creating note:', { title, content }); // Debug log
       await notesService.create({
         title,
         content,
@@ -51,6 +53,7 @@ const NotesApp: React.FC = () => {
       await loadNotes();
       setTitle("");
       setContent("");
+      setActiveView('view'); // Switch to view after creating
     } catch (error) {
       console.error('Error creating note:', error);
     }
@@ -70,6 +73,7 @@ const NotesApp: React.FC = () => {
       setTitle("");
       setContent("");
       setSelectedNote(null);
+      setActiveView('view'); // Switch to view after updating
     } catch (error) {
       console.error('Error updating note:', error);
     }

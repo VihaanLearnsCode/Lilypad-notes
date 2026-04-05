@@ -1,27 +1,40 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Note } from "./types";
+import { notesService } from "./services/notesService";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import Auth from "./components/Auth";
 
-type Note = {
-  id: number;
-  title: string;
-  content: string;
-}
-const App = () => {
-  const [notes, setNotes] = useState<
-  Note[]
-  >([
-    {
-      id: 1,
-      title: "Your First Note!",
-      content: "Click here and use the Content box to write away!",
-    }
-  ]);
-
+const NotesApp: React.FC = () => {
+  const { user } = useAuth();
+  const [notes, setNotes] = useState<Note[]>([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [selectedNote, setSelectedNote] = useState<Note | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const [selectedNote, setSelectedNote] = 
-    useState<Note | null>(null);
+  useEffect(() => {
+    if (user) {
+      loadNotes();
+    } else {
+      setNotes([]);
+      setLoading(false);
+    }
+  }, [user]);
+
+  const loadNotes = async () => {
+    if (!user) return;
+    
+    try {
+      setLoading(true);
+      const userNotes = await notesService.getAll(user.uid);
+      setNotes(userNotes);
+    } catch (error) {
+      console.error('Error loading notes:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
     
   const handleNoteClick = (note:Note) => {
     setSelectedNote(note);
@@ -34,47 +47,44 @@ const App = () => {
     event.preventDefault();
   }
 
-  const handleSubmit = (
-    event : React.FormEvent
-  ) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!user) return;
 
-    const newNote: Note = {
-      id: notes.length + 1,
-      title : title,
-      content: content
+    try {
+      const newNote = await notesService.create({
+        title,
+        content,
+        userId: user.uid
+      });
+      
+      // Reload notes to get the new one with proper ID
+      await loadNotes();
+      setTitle("");
+      setContent("");
+    } catch (error) {
+      console.error('Error creating note:', error);
     }
-
-    setNotes([newNote, ...notes]);
-    setTitle("");
-    setContent("");
   };
 
-  const handleUpdateNote = (
-    event: React.FormEvent
-  ) => {
+  const handleUpdateNote = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (!selectedNote || !selectedNote.id) return;
 
-    if(!selectedNote) {
-      return;
-    }
-
-    const updatedNote: Note = {
-      id: selectedNote.id,
-      title: title,
-      content: content
-    }
+    try {
+      await notesService.update(selectedNote.id, {
+        title,
+        content
+      });
       
-    const updatedNotesList = notes.map((note)=> 
-      note.id === selectedNote.id
-      ? updatedNote
-      : note
-    )
-
-    setNotes(updatedNotesList)
-    setTitle("")
-    setContent("")
-    setSelectedNote(null);
+      // Reload notes to get updated version
+      await loadNotes();
+      setTitle("");
+      setContent("");
+      setSelectedNote(null);
+    } catch (error) {
+      console.error('Error updating note:', error);
+    }
   };
 
   const handleCancel = () => {
@@ -83,18 +93,31 @@ const App = () => {
     setSelectedNote(null);
   }
 
-  const deleteNote = (
-    event: React.MouseEvent,
-    noteId: number) => {
-      event.stopPropagation();
+  const deleteNote = async (event: React.MouseEvent, noteId: string) => {
+    event.stopPropagation();
+    if (!noteId) return;
 
-    const updatedNotes = notes.filter(
-      (note)=> note.id !== noteId
-    )
-    setNotes(updatedNotes);
+    try {
+      await notesService.delete(noteId);
+      setNotes(notes.filter(note => note.id !== noteId));
+    } catch (error) {
+      console.error('Error deleting note:', error);
+    }
   };
+  if (!user) {
+    return <Auth />;
+  }
+
+  if (loading) {
+    return <div className="loading">Loading your notes...</div>;
+  }
+
   return (
-  <div className = "app-container">
+    <div className="app-container">
+      <div className="app-header">
+        <h1>Lilypad Notes</h1>
+        <Auth />
+      </div>
     <form 
       className = "note-form" 
       onSubmit={(event)=> 
@@ -140,7 +163,7 @@ const App = () => {
         <div className = "notes-header">
           <button
            onClick={(event) => 
-            deleteNote(event, note.id)
+            deleteNote(event, note.id || '')
            }
           >
            x
@@ -152,7 +175,16 @@ const App = () => {
       ))}
 
     </div>
-  </div>);
+  </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <NotesApp />
+    </AuthProvider>
+  );
 };
 
 export default App;

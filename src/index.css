@@ -215,6 +215,18 @@ body {
   box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.2);
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
+.z-20 {
+  z-index: 20;
+}
+
 /* Glassy Background & Shine Effects */
 .overflow-hidden {
   overflow: hidden;

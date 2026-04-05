@@ -292,24 +292,27 @@ const NotesApp: React.FC = () => {
                           setActiveView('create');
                         }}
                       >
-                        {/* Shine effect overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-50"></div>
+                        {/* Shine effect overlay - behind content */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                        <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-50 pointer-events-none"></div>
                         
+                        {/* Delete button - always on top */}
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
                             deleteNote(event, note.id || '');
                           }}
-                          className="absolute top-2 right-2 text-2xl hover:scale-110 transition-transform bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
+                          className="absolute top-2 right-2 text-2xl hover:scale-110 transition-transform bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md z-20 pointer-events-auto"
                         >
                           🌸
                         </button>
-                        <div className="mb-2 relative z-10">
+                        
+                        {/* Content - above shine effects */}
+                        <div className="mb-2 relative z-10 pointer-events-none">
                           <h3 className="text-lg font-bold text-green-900">{note.title}</h3>
                         </div>
-                        <p className="text-green-800 line-clamp-4 mb-3 relative z-10">{note.content}</p>
-                        <div className="text-sm text-green-700 font-medium relative z-10">
+                        <p className="text-green-800 line-clamp-4 mb-3 relative z-10 pointer-events-none">{note.content}</p>
+                        <div className="text-sm text-green-700 font-medium relative z-10 pointer-events-none">
                           {note.updatedAt?.toLocaleDateString()}
                         </div>
                       </div>

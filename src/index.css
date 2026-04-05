@@ -11,7 +11,72 @@ body {
   box-sizing: border-box;
 }
 
-/* Custom utility classes for better spacing */
+/* Lily Pad Green Colors */
+.bg-green-100 {
+  background-color: rgb(220, 252, 231);
+}
+
+.bg-green-200 {
+  background-color: rgb(187, 247, 208);
+}
+
+.bg-emerald-100 {
+  background-color: rgb(209, 250, 229);
+}
+
+.bg-emerald-200 {
+  background-color: rgb(167, 243, 208);
+}
+
+.bg-teal-100 {
+  background-color: rgb(204, 251, 241);
+}
+
+.bg-teal-200 {
+  background-color: rgb(153, 246, 228);
+}
+
+.text-green-800 {
+  color: rgb(22, 101, 52);
+}
+
+.text-green-700 {
+  color: rgb(21, 128, 61);
+}
+
+.text-green-600 {
+  color: rgb(34, 197, 94);
+}
+
+.text-emerald-600 {
+  color: rgb(5, 150, 105);
+}
+
+.border-green-300 {
+  border-color: rgb(134, 239, 172);
+}
+
+.focus\:ring-emerald-500:focus {
+  --tw-ring-color: rgb(16, 185, 129);
+}
+
+.bg-emerald-600 {
+  background-color: rgb(5, 150, 105);
+}
+
+.hover\:bg-emerald-700:hover {
+  background-color: rgb(4, 120, 87);
+}
+
+.from-green-400 {
+  --tw-gradient-from: rgb(74, 222, 128);
+}
+
+.to-emerald-600 {
+  --tw-gradient-to: rgb(5, 150, 105);
+}
+
+/* Existing utility classes */
 .container {
   max-width: 1200px;
   margin: 0 auto;

@@ -103,14 +103,14 @@ const NotesApp: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center">
         <div className="text-white text-xl">Loading your notes...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-400 to-blue-600">
+    <div className="min-h-screen bg-gradient-to-br from-green-400 to-emerald-600">
       <div className="container mx-auto px-4 py-8">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Lilypad Notes</h1>
@@ -119,7 +119,7 @@ const NotesApp: React.FC = () => {
               <button 
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   activeView === 'create' 
-                    ? 'bg-white text-blue-600 shadow-lg' 
+                    ? 'bg-white text-emerald-600 shadow-lg' 
                     : 'bg-white/20 text-white hover:bg-white/30'
                 }`}
                 onClick={() => setActiveView('create')}
@@ -129,7 +129,7 @@ const NotesApp: React.FC = () => {
               <button 
                 className={`px-4 py-2 rounded-lg font-medium transition-all ${
                   activeView === 'view' 
-                    ? 'bg-white text-blue-600 shadow-lg' 
+                    ? 'bg-white text-emerald-600 shadow-lg' 
                     : 'bg-white/20 text-white hover:bg-white/30'
                 }`}
                 onClick={() => setActiveView('view')}
@@ -159,7 +159,7 @@ const NotesApp: React.FC = () => {
                       setTitle(event.target.value)
                     }
                     placeholder="Title"
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     required
                   />
                 </div>
@@ -171,7 +171,7 @@ const NotesApp: React.FC = () => {
                      }
                     placeholder="Content"
                     rows={8}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 border border-green-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
                     required
                   />
                 </div>
@@ -179,7 +179,7 @@ const NotesApp: React.FC = () => {
                   <div className="flex gap-3">
                     <button 
                       type="submit" 
-                      className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                      className="flex-1 bg-emerald-600 text-white py-3 px-4 rounded-lg hover:bg-emerald-700 transition-colors font-medium"
                     >
                       Save Changes
                     </button>
@@ -194,7 +194,7 @@ const NotesApp: React.FC = () => {
                 ) : (
                   <button 
                     type="submit" 
-                    className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium"
+                    className="w-full bg-emerald-600 text-white py-3 px-4 rounded-lg hover:bg-emerald-700 transition-colors font-medium"
                   >
                     Add Note
                   </button>
@@ -215,37 +215,50 @@ const NotesApp: React.FC = () => {
                 </div>
               ) : (
                 <div className="grid md:grid-cols-2 gap-6">
-                  {notes.map((note) => (
-                    <div 
-                      key={note.id}
-                      className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer"
-                      onClick={() => {
-                        setSelectedNote(note);
-                        setTitle(note.title);
-                        setContent(note.content);
-                        setActiveView('create');
-                      }}
-                    >
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg font-semibold text-gray-800 flex-1 mr-2">{note.title}</h3>
-                        <button
-                          onClick={(event) => {
-                            event.stopPropagation();
-                            deleteNote(event, note.id || '');
-                          }}
-                          className="text-red-500 hover:text-red-700 transition-colors p-1"
-                        >
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        </button>
+                  {notes.map((note, index) => {
+                    // Generate different shades of green for each note
+                    const greenShades = [
+                      'bg-green-100', // Light green
+                      'bg-green-200', // Medium light green  
+                      'bg-emerald-100', // Emerald light
+                      'bg-emerald-200', // Emerald medium
+                      'bg-teal-100', // Teal light
+                      'bg-teal-200', // Teal medium
+                    ];
+                    const noteColor = greenShades[index % greenShades.length];
+                    
+                    return (
+                      <div 
+                        key={note.id}
+                        className={`${noteColor} rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer border border-green-300`}
+                        onClick={() => {
+                          setSelectedNote(note);
+                          setTitle(note.title);
+                          setContent(note.content);
+                          setActiveView('create');
+                        }}
+                      >
+                        <div className="flex justify-between items-start mb-4">
+                          <h3 className="text-lg font-semibold text-green-800 flex-1 mr-2">{note.title}</h3>
+                          <button
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              deleteNote(event, note.id || '');
+                            }}
+                            className="text-red-500 hover:text-red-700 transition-colors p-1"
+                          >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                          </button>
+                        </div>
+                        <p className="text-green-700 line-clamp-4 mb-3">{note.content}</p>
+                        <div className="text-sm text-green-600">
+                          {note.updatedAt?.toLocaleDateString()}
+                        </div>
                       </div>
-                      <p className="text-gray-600 line-clamp-4 mb-3">{note.content}</p>
-                      <div className="text-sm text-gray-400">
-                        {note.updatedAt?.toLocaleDateString()}
-                      </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>

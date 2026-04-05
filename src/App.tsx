@@ -216,21 +216,33 @@ const NotesApp: React.FC = () => {
               ) : (
                 <div className="grid md:grid-cols-2 gap-6">
                   {notes.map((note, index) => {
-                    // Generate different shades of green for each note
-                    const greenShades = [
-                      'bg-green-100', // Light green
-                      'bg-green-200', // Medium light green  
-                      'bg-emerald-100', // Emerald light
-                      'bg-emerald-200', // Emerald medium
-                      'bg-teal-100', // Teal light
-                      'bg-teal-200', // Teal medium
+                    // Generate random lily pad colors for each note
+                    const borderColors = [
+                      'border-green-600',   // Dark green border
+                      'border-emerald-600', // Dark emerald border  
+                      'border-teal-600',    // Dark teal border
+                      'border-green-700',   // Very dark green border
+                      'border-emerald-700', // Very dark emerald border
+                      'border-teal-700',    // Very dark teal border
                     ];
-                    const noteColor = greenShades[index % greenShades.length];
+                    const innerColors = [
+                      'bg-green-100',   // Light green
+                      'bg-green-50',    // Very light green
+                      'bg-emerald-100', // Emerald light
+                      'bg-emerald-50',  // Very light emerald
+                      'bg-teal-100',    // Teal light
+                      'bg-teal-50',     // Very light teal
+                    ];
+                    
+                    // Use hash of note ID for consistent random colors
+                    const noteHash = note.id ? note.id.split('').reduce((a, b) => a + b.charCodeAt(0), 0) : index;
+                    const borderColor = borderColors[noteHash % borderColors.length];
+                    const innerColor = innerColors[(noteHash + 1) % innerColors.length];
                     
                     return (
                       <div 
                         key={note.id}
-                        className={`${noteColor} rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow cursor-pointer border border-green-300`}
+                        className={`${innerColor} ${borderColor} border-8 rounded-full shadow-lg p-6 hover:shadow-xl transition-all cursor-pointer hover:scale-105`}
                         onClick={() => {
                           setSelectedNote(note);
                           setTitle(note.title);
@@ -239,21 +251,21 @@ const NotesApp: React.FC = () => {
                         }}
                       >
                         <div className="flex justify-between items-start mb-4">
-                          <h3 className="text-lg font-semibold text-green-800 flex-1 mr-2">{note.title}</h3>
+                          <h3 className="text-lg font-bold text-green-900 flex-1 mr-2">{note.title}</h3>
                           <button
                             onClick={(event) => {
                               event.stopPropagation();
                               deleteNote(event, note.id || '');
                             }}
-                            className="text-red-500 hover:text-red-700 transition-colors p-1"
+                            className="text-red-500 hover:text-red-700 transition-colors p-1 bg-white rounded-full shadow-md"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                           </button>
                         </div>
-                        <p className="text-green-700 line-clamp-4 mb-3">{note.content}</p>
-                        <div className="text-sm text-green-600">
+                        <p className="text-green-800 line-clamp-4 mb-3">{note.content}</p>
+                        <div className="text-sm text-green-700 font-medium">
                           {note.updatedAt?.toLocaleDateString()}
                         </div>
                       </div>

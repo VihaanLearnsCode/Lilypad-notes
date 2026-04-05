@@ -125,7 +125,14 @@ const NotesApp: React.FC = () => {
                     ? 'bg-white text-emerald-600 shadow-lg' 
                     : 'bg-white/20 text-white hover:bg-white/30'
                 }`}
-                onClick={() => setActiveView('create')}
+                onClick={() => {
+                  setActiveView('create');
+                  // Always start fresh when clicking create note
+                  setTitle("");
+                  setContent("");
+                  setSelectedNote(null);
+                  setCurrentNoteColor(null);
+                }}
               >
                 Create Note
               </button>

@@ -45,7 +45,7 @@ const NotesApp: React.FC = () => {
 
     try {
       console.log('Creating note:', { title, content }); // Debug log
-      const newNoteId = await notesService.create({
+      await notesService.create({
         title,
         content,
         userId: user.uid

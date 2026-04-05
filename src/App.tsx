@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Note } from "./types";
 import { notesService } from "./services/notesService";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
@@ -13,16 +13,7 @@ const NotesApp: React.FC = () => {
   const [selectedNote, setSelectedNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (user) {
-      loadNotes();
-    } else {
-      setNotes([]);
-      setLoading(false);
-    }
-  }, [user]);
-
-  const loadNotes = async () => {
+  const loadNotes = useCallback(async () => {
     if (!user) return;
     
     try {
@@ -34,17 +25,21 @@ const NotesApp: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      loadNotes();
+    } else {
+      setNotes([]);
+      setLoading(false);
+    }
+  }, [user, loadNotes]);
     
   const handleNoteClick = (note:Note) => {
     setSelectedNote(note);
     setTitle(note.title);
     setContent(note.content);
-  }
-  const handleAddNote = (
-    event: React.FormEvent
-  ) => {
-    event.preventDefault();
   }
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -52,7 +47,7 @@ const NotesApp: React.FC = () => {
     if (!user) return;
 
     try {
-      const newNote = await notesService.create({
+      await notesService.create({
         title,
         content,
         userId: user.uid

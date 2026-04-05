@@ -215,7 +215,54 @@ body {
   box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.2);
 }
 
-/* Existing Auth Styles */
+/* Mobile Responsive & Positioning */
+.grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.md\:grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lg\:grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.lg\:gap-6 {
+  gap: 1.5rem;
+}
+
+.lg\:gap-8 {
+  gap: 2rem;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.lg\:px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.-top-2 {
+  top: -0.5rem;
+}
+
+.-right-2 {
+  right: -0.5rem;
+}
+
+.opacity-20 {
+  opacity: 0.2;
+}
+
+/* Existing utility classes */
 .container {
   max-width: 1200px;
   margin: 0 auto;

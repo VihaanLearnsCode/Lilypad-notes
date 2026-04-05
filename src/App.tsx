@@ -151,9 +151,13 @@ const NotesApp: React.FC = () => {
           </div>
         </header>
 
-        <main className="grid lg:grid-cols-2 gap-8">
+        <main className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 px-4 lg:px-0">
           {activeView === 'create' ? (
-            <div className={`${currentNoteColor?.inner || 'bg-green-100'} ${currentNoteColor?.border || 'border-green-600'} border-4 rounded-2xl shadow-xl p-6`}>
+            <div className={`${currentNoteColor?.inner || 'bg-green-100'} ${currentNoteColor?.border || 'border-green-600'} border-4 rounded-2xl shadow-xl p-6 relative`}>
+              {/* Flower decoration */}
+              <div className="absolute -top-2 -right-2 text-2xl opacity-20">
+                🌸
+              </div>
               <div className="mb-4">
                 <h2 className="text-xl font-bold text-green-900 mb-2">
                   {selectedNote ? 'Edit Note' : 'Create New Note'}
@@ -239,7 +243,7 @@ const NotesApp: React.FC = () => {
                   <p className="text-gray-500">Click "Create Note" to add your first note!</p>
                 </div>
               ) : (
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6">
                   {notes.map((note, index) => {
                     // Generate random lily pad colors for each note
                     const borderColors = [

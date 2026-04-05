@@ -113,8 +113,17 @@ const NotesApp: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-400 to-emerald-600">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-green-400 to-emerald-600 relative overflow-hidden">
+      {/* Glassy background elements */}
+      <div className="absolute inset-0 bg-black/10 backdrop-blur-[2px]"></div>
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-20 w-72 h-72 bg-white/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-20 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white/8 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+      </div>
+      
+      <div className="relative z-10">
+        <div className="container mx-auto px-4 py-8">
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-white">Lilypad Notes</h1>
           <div className="flex items-center gap-6">
@@ -271,7 +280,7 @@ const NotesApp: React.FC = () => {
                     return (
                       <div 
                         key={note.id}
-                        className={`${innerColor} ${borderColor} border-4 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all cursor-pointer hover:scale-105 relative`}
+                        className={`${innerColor} ${borderColor} border-4 rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all cursor-pointer hover:scale-105 relative overflow-hidden group`}
                         onClick={() => {
                           setSelectedNote(note);
                           setTitle(note.title);
@@ -292,20 +301,24 @@ const NotesApp: React.FC = () => {
                           setActiveView('create');
                         }}
                       >
+                        {/* Shine effect overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute top-0 left-0 w-full h-1/3 bg-gradient-to-b from-white/10 to-transparent opacity-50"></div>
+                        
                         <button
                           onClick={(event) => {
                             event.stopPropagation();
                             deleteNote(event, note.id || '');
                           }}
-                          className="absolute top-2 right-2 text-2xl hover:scale-110 transition-transform bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md"
+                          className="absolute top-2 right-2 text-2xl hover:scale-110 transition-transform bg-white rounded-full w-8 h-8 flex items-center justify-center shadow-md z-10"
                         >
                           🌸
                         </button>
-                        <div className="mb-2">
+                        <div className="mb-2 relative z-10">
                           <h3 className="text-lg font-bold text-green-900">{note.title}</h3>
                         </div>
-                        <p className="text-green-800 line-clamp-4 mb-3">{note.content}</p>
-                        <div className="text-sm text-green-700 font-medium">
+                        <p className="text-green-800 line-clamp-4 mb-3 relative z-10">{note.content}</p>
+                        <div className="text-sm text-green-700 font-medium relative z-10">
                           {note.updatedAt?.toLocaleDateString()}
                         </div>
                       </div>

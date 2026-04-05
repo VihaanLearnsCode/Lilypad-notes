@@ -215,6 +215,157 @@ body {
   box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.2);
 }
 
+/* Glassy Background & Shine Effects */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.backdrop-blur-\[2px\] {
+  backdrop-filter: blur(2px);
+}
+
+.bg-black\/10 {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.bg-white\/8 {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bg-white\/20 {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.blur-3xl {
+  filter: blur(64px);
+}
+
+.w-72 {
+  width: 18rem;
+}
+
+.h-72 {
+  height: 18rem;
+}
+
+.w-96 {
+  width: 24rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.w-80 {
+  width: 20rem;
+}
+
+.h-80 {
+  height: 20rem;
+}
+
+.top-20 {
+  top: 5rem;
+}
+
+.bottom-20 {
+  bottom: 5rem;
+}
+
+.left-20 {
+  left: 5rem;
+}
+
+.right-20 {
+  right: 5rem;
+}
+
+.top-1\/2 {
+  top: 50%;
+}
+
+.left-1\/2 {
+  left: 50%;
+}
+
+.transform {
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-50 {
+  opacity: 0.5;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.group:hover .group-hover\:opacity-100:hover {
+  opacity: 1;
+}
+
+.transition-opacity {
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.duration-300 {
+  transition-duration: 300ms;
+}
+
+.top-0 {
+  top: 0;
+}
+
+.left-0 {
+  left: 0;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-1\/3 {
+  height: 33.333333%;
+}
+
+.from-white\/10 {
+  --tw-gradient-from: rgba(255, 255, 255, 0.1);
+}
+
+.via-transparent {
+  --tw-gradient-via: transparent;
+}
+
+.to-transparent {
+  --tw-gradient-to: transparent;
+}
+
+.bg-gradient-to-br {
+  background-image: linear-gradient(to bottom right, var(--tw-gradient-stops));
+}
+
+.bg-gradient-to-b {
+  background-image: linear-gradient(to bottom, var(--tw-gradient-stops));
+}
+
+.z-10 {
+  z-index: 10;
+}
+
 /* Mobile Responsive & Positioning */
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));

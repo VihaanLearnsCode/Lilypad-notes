@@ -330,6 +330,7 @@ const NotesApp: React.FC = () => {
           )}
         </main>
       </div>
+      </div>
     </div>
   );
 };
